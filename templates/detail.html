@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Thông tin nhà</h2>
+<p><strong>Địa chỉ:</strong> {{ house[1] }}</p>
+<p><strong>Chủ nhà:</strong> {{ house[2] }}</p>
+<p><strong>Giá thuê:</strong> {{ house[3] }}</p>
+<p><strong>Trạng thái:</strong> {{ 'Đã cho thuê' if house[4] else 'Chưa thuê' }}</p>
+<a href="{{ url_for('toggle', house_id=house[0]) }}">Chuyển trạng thái</a>
+{% endblock %}

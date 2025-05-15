@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Chỉnh sửa nhà</h2>
+<form method="POST">
+    <label>Địa chỉ:</label>
+    <input name="address" type="text" value="{{ house[1] }}" required><br>
+
+    <label>Chủ nhà:</label>
+    <input name="owner" type="text" value="{{ house[2] }}" required><br>
+
+    <label>Giá:</label>
+    <input name="price" type="number" value="{{ house[3] }}" required><br>
+
+    <label>Đã thuê:</label>
+    <input name="is_rented" type="checkbox" {% if house[4] %}checked{% endif %}><br><br>
+
+    <button type="submit">Lưu thay đổi</button>
+</form>
+<a href="{{ url_for('index') }}">Quay lại danh sách</a>
+{% endblock %}

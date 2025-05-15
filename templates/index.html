@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Danh sách nhà</h2>
+<form method="get" class="form-inline">
+    <label for="keyword">Tìm theo địa chỉ:</label>
+    <input id="keyword" name="keyword" value="{{request.args.get('keyword', '')}}">
+
+    <label for="max_price">Giá tối đa:</label>
+    <input id="max_price" name="max_price" value="{{request.args.get('max_price', '')}}">
+
+    <button type="submit">Tìm kiếm</button>
+</form>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr><th>ID</th><th>Địa chỉ</th><th>Chủ nhà</th><th>Giá</th><th>Trạng thái thuê</th><th>Hành động</th></tr>
+    {% for h in houses %}
+<tr>
+    <td>{{ h[0] }}</td>
+    <td>{{ h[1] }}</td>
+    <td>{{ h[2] }}</td>
+    <td>{{ h[3] }}</td>
+    <td>{{ 'Đã thuê' if h[4] else 'Chưa thuê' }}</td>
+    <td>
+            <a href="/rent/{{ h[0] }}">Thuê nhà</a>
+ |
+        <a href="{{ url_for('edit', house_id=h[0]) }}">Chỉnh sửa</a> |
+        <a href="{{ url_for('delete', house_id=h[0]) }}" onclick="return confirm('Bạn chắc chắn muốn xóa?')">Xóa</a>
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+{% endblock %}

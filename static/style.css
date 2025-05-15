@@ -1,0 +1,120 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: #333;
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  border-radius: 12px;
+}
+
+h2 {
+  color: #2c3e50;
+  margin-bottom: 24px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  font-family: inherit;
+  margin-top: 20px;
+}
+
+thead th {
+  background-color: #2980b9;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 14px 20px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+tbody tr {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+  background-color: #d6eaff;
+  cursor: pointer;
+}
+
+tbody tr + tr {
+  border-top: 12px solid transparent;
+}
+
+td {
+  padding: 14px 20px;
+  text-align: center;
+  border: none; /* không hiện viền giữa các dòng */
+}
+
+a {
+  color: #2980b9;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #1a5276;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[name="address"],
+input[name="owner"],
+input[name="price"] {
+  padding: 8px 12px;
+  margin: 8px 0 12px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 300px;
+  font-size: 14px;
+  display: block;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #1c5980;
+}
+
+.form-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-inline label {
+  margin-right: 5px;
+}
+
+label {
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
+}

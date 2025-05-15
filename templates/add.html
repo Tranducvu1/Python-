@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Thêm nhà mới</h2>
+<form method="POST">
+    Địa chỉ: <input name="address"><br>
+    Chủ nhà: <input name="owner"><br>
+    Giá thuê: <input name="price"><br>
+    <button type="submit">Thêm</button>
+</form>
+{% endblock %}

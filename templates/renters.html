@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Danh sách người thuê nhà</h2>
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+        <th>ID người thuê</th>
+        <th>Họ tên</th>
+        <th>Số CCCD</th>
+        <th>Tuổi</th>
+        <th>Giới tính</th>
+        <th>Số người ở</th>
+        <th>Ngày thuê từ</th>
+        <th>Ngày thuê đến</th>
+        <th>Địa chỉ nhà</th>
+        <th>Mã số nhà</th>
+        <th>Hành động</th>
+    </tr>
+    {% for r in renters %}
+    <tr>
+        <td>{{ r[0] }}</td>
+        <td>{{ r[1] }}</td>
+        <td>{{ r[2] }}</td>
+        <td>{{ r[3] }}</td>
+        <td>{{ r[4] }}</td>
+        <td>{{ r[5] }}</td>
+        <td>{{ r[6] }}</td>
+        <td>{{ r[7] }}</td>
+        <td>{{ r[8] }}</td>
+        <td>{{ r[9] }}</td>
+        <td>
+            <a href="{{ url_for('delete_renter', renter_id=r[0]) }}" onclick="return confirm('Bạn chắc chắn muốn xóa người thuê này?')">Xóa</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

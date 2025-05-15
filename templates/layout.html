@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản lý nhà cho thuê</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>🏠 Quản lý nhà cho thuê</h1>
+    <a href="{{ url_for('index') }}">Trang chủ</a> |
+    <a href="{{ url_for('add') }}">Thêm nhà</a> |
+    <a href="{{ url_for('renters_list') }}">Danh sách người thuê nhà</a>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>

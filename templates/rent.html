@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Thuê nhà (ID: {{ house_id }})</h2>
+<form method="POST">
+    <label>Họ tên:</label>
+    <input name="name" required><br>
+
+    <label>Số CCCD:</label>
+    <input name="cccd" required><br>
+
+    <label>Tuổi:</label>
+    <input type="number" name="age" required><br>
+
+    <label>Giới tính:</label>
+    <select name="gender">
+        <option value="Nam">Nam</option>
+        <option value="Nữ">Nữ</option>
+    </select><br>
+
+    <label>Số người ở:</label>
+    <input type="number" name="number_of_people" id="number_of_people" value="1" min="1" required><br>
+
+    <label>Thuê đến ngày:</label>
+    <input type="date" name="end_date" required><br>
+
+    <button type="submit">Xác nhận thuê</button>
+</form>
+{% endblock %}
