@@ -1,0 +1,280 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="text-center mb-4">Thống kê nhà cho thuê</h2>
+    
+    <!-- Phần tab để chuyển đổi giữa bảng và biểu đồ -->
+    <ul class="nav nav-tabs mb-4" id="statsTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="table-tab" data-bs-toggle="tab" data-bs-target="#table" type="button" role="tab" aria-controls="table" aria-selected="true">Bảng dữ liệu</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="chart-tab" data-bs-toggle="tab" data-bs-target="#chart" type="button" role="tab" aria-controls="chart" aria-selected="false">Biểu đồ</button>
+        </li>
+    </ul>
+    
+    <div class="tab-content" id="statsTabContent">
+        <!-- Tab bảng dữ liệu -->
+        <div class="tab-pane fade show active" id="table" role="tabpanel" aria-labelledby="table-tab">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Địa chỉ</th>
+                            <th>Chủ nhà</th>
+                            <th>Giá thuê</th>
+                            <th>Số lần thuê</th>
+                            <th>Tổng doanh thu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for addr, owner, price, rent_count, total_revenue in stats %}
+                        <tr>
+                            <td>{{ addr }}</td>
+                            <td>{{ owner }}</td>
+                            <td>{{ "{:,.0f}".format(price) }} VNĐ</td>
+                            <td>{{ rent_count }}</td>
+                            <td>{{ "{:,.0f}".format(total_revenue) }} VNĐ</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab biểu đồ -->
+        <div class="tab-pane fade" id="chart" role="tabpanel" aria-labelledby="chart-tab">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Số lần thuê theo địa chỉ</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="rentCountChart" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">Doanh thu theo địa chỉ</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="revenueChart" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="card-title mb-0">So sánh giá thuê và doanh thu</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="combinedChart" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Link đến Bootstrap JS và Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<!-- Link đến Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const statsData = [];
+    document.querySelectorAll('#table table tbody tr').forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const address = cells[0].textContent;
+        const owner = cells[1].textContent;
+        const price = parseFloat(cells[2].textContent.replace(/[^\d]/g, ''));
+        const rentCount = parseInt(cells[3].textContent);
+        const totalRevenue = parseFloat(cells[4].textContent.replace(/[^\d]/g, ''));
+        
+        statsData.push({address, owner, price, rentCount, totalRevenue});
+    });
+    
+    const addresses = statsData.map(item => item.address);
+    const owners = statsData.map(item => item.owner);
+    const prices = statsData.map(item => item.price);
+    const rentCounts = statsData.map(item => item.rentCount);
+    const totalRevenues = statsData.map(item => item.totalRevenue);
+    
+    // Cấu hình màu sắc đẹp mắt
+    const backgroundColors = [
+        'rgba(54, 162, 235, 0.7)',
+        'rgba(255, 99, 132, 0.7)',
+        'rgba(255, 206, 86, 0.7)',
+        'rgba(75, 192, 192, 0.7)',
+        'rgba(153, 102, 255, 0.7)',
+        'rgba(255, 159, 64, 0.7)',
+        'rgba(199, 199, 199, 0.7)',
+        'rgba(83, 102, 255, 0.7)',
+        'rgba(40, 159, 64, 0.7)',
+        'rgba(210, 105, 30, 0.7)'
+    ];
+    
+    // Rút gọn địa chỉ quá dài để hiển thị trên biểu đồ
+    const shortAddresses = addresses.map(addr => {
+        return addr.length > 25 ? addr.substring(0, 22) + '...' : addr;
+    });
+    
+    // Format số tiền cho dễ đọc
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+    }
+    
+    // Biểu đồ số lần thuê
+    const rentCountCtx = document.getElementById('rentCountChart').getContext('2d');
+    new Chart(rentCountCtx, {
+        type: 'bar',
+        data: {
+            labels: shortAddresses,
+            datasets: [{
+                label: 'Số lần thuê',
+                data: rentCounts,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors.map(color => color.replace('0.7', '1')),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return addresses[tooltipItems[0].dataIndex];
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Số lần thuê'
+                    }
+                }
+            }
+        }
+    });
+    
+    // Biểu đồ doanh thu
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(revenueCtx, {
+        type: 'pie',
+        data: {
+            labels: shortAddresses,
+            datasets: [{
+                data: totalRevenues,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors.map(color => color.replace('0.7', '1')),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        boxWidth: 15
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return addresses[tooltipItems[0].dataIndex];
+                        },
+                        label: function(context) {
+                            return formatCurrency(context.raw);
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Biểu đồ kết hợp giá thuê và doanh thu
+    const combinedCtx = document.getElementById('combinedChart').getContext('2d');
+    new Chart(combinedCtx, {
+        type: 'bar',
+        data: {
+            labels: shortAddresses,
+            datasets: [
+                {
+                    label: 'Giá thuê',
+                    data: prices,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Tổng doanh thu',
+                    data: totalRevenues,
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return addresses[tooltipItems[0].dataIndex];
+                        },
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            return label + formatCurrency(context.raw);
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Giá thuê (VNĐ)'
+                    }
+                },
+                y1: {
+                    beginAtZero: true,
+                    type: 'linear',
+                    position: 'right',
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tổng doanh thu (VNĐ)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

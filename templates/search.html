@@ -2,8 +2,8 @@
 {% block content %}
 <h2>Tìm kiếm</h2>
 <form method="POST">
-    Địa chỉ: <input name="address">
-    Giá tối đa: <input name="price">
+    Địa chỉ: <input name="address" value="{{ request.form.address or '' }}">
+    Giá tối đa: <input name="price" value="{{ request.form.price or '' }}">
     <button type="submit">Tìm</button>
 </form>
 
@@ -11,7 +11,7 @@
     <h3>Kết quả:</h3>
     <ul>
     {% for h in houses %}
-        <li>{{ h[1] }} | {{ h[3] }} | {{ 'Thuê' if h[4] else 'Chưa thuê' }}</li>
+        <li>{{ h[1] }} | {{ "{:,.0f}".format(h[3]) }} VNĐ | {{ 'Đã thuê' if h[4] else 'Chưa thuê' }}</li>
     {% endfor %}
     </ul>
 {% endif %}

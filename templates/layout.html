@@ -7,9 +7,38 @@
 <body>
     <h1>🏠 Quản lý nhà cho thuê</h1>
     <a href="{{ url_for('index') }}">Trang chủ</a> |
+     {% if current_user.role == 'admin' %}
     <a href="{{ url_for('add') }}">Thêm nhà</a> |
-    <a href="{{ url_for('renters_list') }}">Danh sách người thuê nhà</a>
+    <a href="{{ url_for('renters_list') }}">Danh sách người thuê nhà</a> |
+    <a href="{{ url_for('export_excel') }}">Xuất file Excel</a> |
+   <a href="{{ url_for('statistics') }}">Thống kê</a> |
+     {% endif %}
+     {% if current_user.role == 'user' %}
+      <a href="{{ url_for('my_rentals') }}">Chi tiết</a> |
+       {% endif %}
+    <a href="{{ url_for('logout') }}">Đăng xuất</a>
+
     <hr>
+
     {% block content %}{% endblock %}
+
+    <!-- Popup ảnh phóng to -->
+    <div id="imagePopup" onclick="hideImage()">
+        <img id="popupImg" src="">
+    </div>
+
+    <script>
+        function showImage(src) {
+            const popup = document.getElementById('imagePopup');
+            const popupImg = document.getElementById('popupImg');
+            popupImg.src = src;
+            popup.classList.add('show');
+        }
+        function hideImage() {
+            const popup = document.getElementById('imagePopup');
+            popup.classList.remove('show');
+            popupImg.src = '';
+        }
+    </script>
 </body>
 </html>

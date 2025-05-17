@@ -1,0 +1,70 @@
+.login {
+  max-width: 360px;
+  margin: 40px auto;
+  padding: 25px 30px;
+  background-color: #f0f4ff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 102, 255, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.login input[type="text"],
+.login input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0 20px 0;
+  border: 1.5px solid #bbb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.login input[type="text"]:focus,
+.login input[type="password"]:focus {
+  border-color: #3366ff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(51, 102, 255, 0.5);
+}
+
+.login button {
+  width: 100%;
+  background-color: #3366ff;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.login button:hover {
+  background-color: #254eda;
+}
+
+.login label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+p {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-top: 18px;
+}
+
+p a {
+  color: #3366ff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: text-decoration 0.3s ease;
+}
+
+p a:hover {
+  text-decoration: underline;
+}

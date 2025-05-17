@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Nhà tôi đang thuê</h2>
+
+{% if rentals %}
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ID Nhà</th>
+            <th>Địa chỉ</th>
+            <th>Chủ nhà</th>
+            <th>Giá thuê</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Trạng thái thuê</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rentals %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.address }}</td>
+            <td>{{ r.owner }}</td>
+            <td>{{ r.price }}</td>
+            <td>{{ r.start_date.strftime('%d/%m/%Y') }}</td>
+            <td>
+                {% if r.end_date %}
+                    {{ r.end_date.strftime('%d/%m/%Y') }}
+                {% else %}
+                    Không xác định
+                {% endif %}
+            </td>
+            <td>
+                {% if r.end_date is none or r.end_date >= current_date %}
+                    Đang thuê
+                {% else %}
+                    Đã trả
+                {% endif %}
+            </td>
+            <td>
+                {% if r.end_date is none or r.end_date >= current_date %}
+                    <a href="{{ url_for('cancel_rental', rental_id=r.id) }}"
+                       onclick="return confirm('Bạn chắc chắn muốn hủy thuê nhà này?');">Hủy thuê</a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Bạn chưa thuê nhà nào.</p>
+{% endif %}
+{% endblock %}

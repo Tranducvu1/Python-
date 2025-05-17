@@ -1,0 +1,78 @@
+.register {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px 35px;
+  background-color: #f9faff;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(51, 102, 255, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.register input[type="text"],
+.register input[type="password"],
+.register input[type="email"],
+.register select {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 10px 0 22px 0;
+  border: 1.5px solid #bbb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.register input[type="text"]:focus,
+.register input[type="password"]:focus,
+.register input[type="email"]:focus,
+.register select:focus {
+  border-color: #3366ff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(51, 102, 255, 0.5);
+}
+
+.register button {
+  width: 100%;
+  background-color: #3366ff;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.register button:hover {
+  background-color: #254eda;
+}
+
+.register label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+/* Style cho form login button quay về */
+form[action="/login"] {
+  max-width: 400px;
+  margin: 10px auto 0;
+  text-align: center;
+}
+
+form[action="/login"] button {
+  background-color: #999;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+form[action="/login"] button:hover {
+  background-color: #666;
+}

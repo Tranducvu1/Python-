@@ -1,0 +1,35 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản lý nhà cho thuê</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+    
+</head>
+<body>
+   <form method="POST" action="/register" class="register">
+  <label for="username">Username:</label>
+  <input id="username" name="username" type="text" required>
+
+  <label for="password">Password:</label>
+  <input id="password" name="password" type="password" required>
+
+  <label for="email">Email:</label>
+  <input id="email" name="email" type="email" required>
+
+  <label for="role">Role:</label>
+  <select id="role" name="role">
+    <option value="admin">Admin</option>
+    <option value="user">User</option>
+  </select>
+
+  <button type="submit">Register</button>
+</form>
+
+<form action="/login" method="get">
+  <button type="submit">Login</button>
+</form>
+
+</body>
+</html>

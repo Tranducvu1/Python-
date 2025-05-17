@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản lý nhà cho thuê</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    
+</head>
+<body>
+    <form method="POST" class="login">
+  <label for="username">Username:</label>
+  <input id="username" name="username" type="text" required>
+
+  <label for="password">Password:</label>
+  <input id="password" name="password" type="password" required>
+
+  <button type="submit">Login</button>
+</form>
+
+<p>Chưa có tài khoản? <a href="/register">Đăng ký ngay</a></p>
+</body>
+</html>
